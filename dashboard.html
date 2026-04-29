@@ -1,0 +1,57 @@
+<!doctype html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="color-scheme" content="dark light" />
+    <title>CUCSS - Dashboard</title>
+    <style>
+      form {
+        display: flex;
+        flex-direction: column;
+        gap: 1em;
+        padding: 1em;
+        max-width: 700px;
+        margin: auto;
+      }
+      .header {
+        display: flex;
+        gap: 1em;
+        align-items: center;
+        justify-content: space-between;
+      }
+      textarea {
+        font-family: monospace;
+        font-size: 1em;
+        padding: 1em;
+        background: lightyellow
+      }
+      span {
+        opacity: 0.5;
+        font-style: italic;
+
+      }
+
+    </style>
+  </head>
+
+  <body>
+    <form id="style-form">
+      <div class="header">
+        <div>
+          <label for="host">Styles for host:</label>
+          <span>https://</span>
+          <input type="text" id="host" name="host" />
+          <span>/*</span>
+        </div>
+        <button type="submit" id="submit-button" disabled>Save</button>
+      </div>
+
+      <textarea id="code" name="code" rows="20" placeholder="/* Write your CSS here */"></textarea>
+    </form>
+
+    <ul id="stored-styles"></ul>
+
+    <script src="dashboard.mjs" type="module"></script>
+  </body>
+</html>
