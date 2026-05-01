@@ -1,0 +1,31 @@
+{
+  "name": "cucss",
+  "version": "1.0.0",
+  "description": "CustomCSS - injects custom CSS into pages.",
+  "homepage": "https://github.com/panacotar/cucss#readme",
+  "bugs": {
+    "url": "https://github.com/panacotar/cucss/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/panacotar/cucss.git"
+  },
+  "license": "ISC",
+  "author": "panacotar",
+  "type": "module",
+  "scripts": {
+    "dev": "node ./esbuild.mjs --watch",
+    "build": "node ./esbuild.mjs",
+    "firefox:start": "web-ext run --source-dir=dist --target=firefox-desktop --devtools",
+    "firefox:lint": "web-ext lint --source-dir=dist --target=firefox-desktop",
+    "firefox:release": "web-ext build --source-dir=dist --artifacts-dir=release",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "esbuild": "^0.28.0",
+    "web-ext": "^10.1.0"
+  },
+  "engines": {
+    "node": ">=25.8.2"
+  }
+}

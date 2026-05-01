@@ -2,18 +2,44 @@
 
 "CustomCSS - injects custom CSS into pages."
 
-## Dev
 
-To test on Firefox, install the [web-ext](https://extensionworkshop.com/documentation/develop/getting-started-with-web-ext/)` cli util.
+## Development
 
-Run the project:
-```
-web-ext run --devtools
+### 1. Install dependencies
+
+```sh
+npm install
 ```
 
-Validate the code:
+### 2. Build the extension
+
+One-time build:
+```sh
+npm run build
 ```
-web-ext lint
+
+Watch for changes (auto-rebuild esbuild files on file save):
+```sh
+npm run dev
+```
+
+### 3. Test in Firefox
+
+```sh
+npm run firefox:start
+```
+
+### 4. Validate the code
+
+```sh
+npm run firefox:lint
+```
+
+### 5. Create a release
+
+Will output to the `release` directory.
+```sh
+npm run firefox:release
 ```
 
 <!-- 

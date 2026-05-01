@@ -1,4 +1,4 @@
-import { Storage } from "/storage.mjs";
+import { Storage } from "./storage.js";
 
 const submitButton = document.getElementById('submit-button');
 
