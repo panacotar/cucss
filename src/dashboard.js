@@ -52,7 +52,8 @@ document.getElementById('style-form').addEventListener('submit', async (e) => {
     return;
   }
 
-  const code = document.getElementById('code').value;
+  // Get code from CodeMirror editor instance
+  const code = view.state.doc.toString();
   // Remove newlines and extra spaces for basic validation
   const normalizedCode = code.replace(/\s+/g, ' ').trim();
 
