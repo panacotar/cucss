@@ -17,7 +17,7 @@
     "dev": "node ./esbuild.mjs --watch",
     "build": "node ./esbuild.mjs",
     "firefox:start": "web-ext run --source-dir=dist --target=firefox-desktop --devtools",
-    "firefox:lint": "web-ext lint --source-dir=dist --target=firefox-desktop",
+    "firefox:lint": "web-ext lint --source-dir=dist",
     "firefox:release": "web-ext build --source-dir=dist --artifacts-dir=release",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -27,5 +27,9 @@
   },
   "engines": {
     "node": ">=25.8.2"
+  },
+  "dependencies": {
+    "@codemirror/lang-css": "^6.3.1",
+    "codemirror": "^6.0.2"
   }
 }
