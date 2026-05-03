@@ -19,17 +19,21 @@
     "firefox:start": "web-ext run --source-dir=dist --target=firefox-desktop --devtools",
     "firefox:lint": "web-ext lint --source-dir=dist",
     "firefox:release": "web-ext build --source-dir=dist --artifacts-dir=release",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "devDependencies": {
-    "esbuild": "^0.28.0",
-    "web-ext": "^10.1.0"
-  },
-  "engines": {
-    "node": ">=25.8.2"
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
   },
   "dependencies": {
     "@codemirror/lang-css": "^6.3.1",
     "codemirror": "^6.0.2"
+  },
+  "devDependencies": {
+    "esbuild": "^0.28.0",
+    "jest": "^30.3.0",
+    "web-ext": "^10.1.0"
+  },
+  "jest": {
+    "transform": {}
+  },
+  "engines": {
+    "node": ">=25.8.2"
   }
 }
