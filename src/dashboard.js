@@ -1,5 +1,5 @@
 import { Storage } from "./storage.js";
-import { view } from "./codemirror.js";
+import { view } from "./utils/codemirror.js";
 
 const submitButton = document.getElementById('submit-button');
 

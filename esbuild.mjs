@@ -19,7 +19,7 @@ await fs.mkdir(distDir, { recursive: true });
 
 const options = {
   entryPoints: [
-    'src/**/*.js',
+    'src/*.js', 'src/scripts/*.js'
   ],
   outbase: srcDir,
   outdir: distDir,
