@@ -22,10 +22,17 @@ function parseUrlPrefix(urlPrefix) {
 }
 
 async function initCodeTextarea(host) {
-  const textarea = document.getElementById('code');
   let code = await Storage.getHostStyle(host);
-  
-  textarea.value = code;
+  // Set CodeMirror editor content
+  if (window.view) {
+    window.view.dispatch({
+      changes: { from: 0, to: window.view.state.doc.length, insert: code }
+    });
+  } else if (typeof view !== 'undefined') {
+    view.dispatch({
+      changes: { from: 0, to: view.state.doc.length, insert: code }
+    });
+  }
 }
 
 function init() {
@@ -55,7 +62,9 @@ document.getElementById('style-form').addEventListener('submit', async (e) => {
   // Get code from CodeMirror editor instance
   const code = view.state.doc.toString();
   // Remove newlines and extra spaces for basic validation
-  const normalizedCode = code.replace(/\s+/g, ' ').trim();
+  // const normalizedCode = code.replace(/\s+/g, ' ').trim();
+  // Remove extra spaces for basic validation
+  const normalizedCode = code.trim();
 
   // Todo: Validate CSS code (basic check)...";
   // Store the CSS code in local storage
