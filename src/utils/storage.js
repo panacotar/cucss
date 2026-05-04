@@ -1,8 +1,8 @@
-const RULES_KEY = "styleRules";
+const RULES_KEY = "cucssRules";
 
 // Example structure of stored rules:
 // {
-//   "styleRules": {
+//   "cucssRules": {
 //     "global": "...",
 //     "hosts": {
 //       "example.com": "..."
