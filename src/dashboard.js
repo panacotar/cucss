@@ -1,5 +1,6 @@
 import { Storage } from "./utils/storage.js";
 import { view } from "./utils/codemirror.js";
+import { exportStyles } from "./utils/styleTransfer.js";
 
 const submitButton = document.getElementById('submit-button');
 
@@ -71,6 +72,11 @@ document.getElementById('style-form').addEventListener('submit', async (e) => {
   await Storage.setHostStyle(host, normalizedCode);
   submitButton.setAttribute('disabled', true);
 });
+
+// Export styles button handler
+document.getElementById('export-button').addEventListener('click', async () => {
+  await exportStyles();
+})
 
 // On page load, list all stored styles in the ul element
 async function listStoredStyles() {
