@@ -5,7 +5,10 @@
   "version": "1.0",
   "homepage_url": "https://github.com/panacotar/cucss",
   "icons": {
-    "48": "icons/brush_48.png"
+    "32": "icons/cucss32.png",
+    "48": "icons/cucss48.png",
+    "64": "icons/cucss64.png",
+    "128": "icons/cucss128.png"
   },
 
   "browser_specific_settings": {
