@@ -42,6 +42,11 @@ Will output to the `release` directory.
 npm run firefox:release
 ```
 
+### Test
+```
+npm run test
+```
+
 <!-- 
 
 body { background: red; font-style: italic; } 

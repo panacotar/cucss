@@ -27,11 +27,18 @@ async function init() {
   const currentHost = getCurrentHost(currentTab.url)
   // if (!currentHost) {
 
-  // Set checkbox state based on stored value
-  document.getElementById('styles-checkbox').checked = await getApplyStyles();
-
-  // Set current host info
-  document.getElementById('current-host').textContent = currentHost;
+  if (currentHost) {
+    document.getElementById('invalid-host').style.display = 'none';
+    document.getElementById('popup-form').style.display = 'block';
+    // Set checkbox state based on stored value
+    document.getElementById('styles-checkbox').checked = await getApplyStyles();
+  
+    // Set current host info
+    document.getElementById('current-host').textContent = currentHost;
+  } else {
+    document.getElementById('invalid-host').style.display = 'block';
+    document.getElementById('popup-form').style.display = 'none';
+  }
 
   // Open dashboard page
   document.getElementById('dashboard-btn').addEventListener('click', async () => {
