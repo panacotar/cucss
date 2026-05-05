@@ -103,7 +103,7 @@ document.getElementById('import-button').addEventListener('click', () => {
 // On page load, list all stored styles in the ul element
 async function listStoredStyles() {
   const styles = await Storage.getRules();
-  const list = document.getElementById('stored-styles');
+  const list = document.getElementById('stored-styles-list');
   list.innerHTML = "";
   
   if (styles.global) {
