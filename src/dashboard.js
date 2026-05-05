@@ -1,6 +1,6 @@
 import { Storage } from "./utils/storage.js";
 import { view } from "./utils/codemirror.js";
-import { exportStyles } from "./utils/styleTransfer.js";
+import { exportStyles, importStyles } from "./utils/styleTransfer.js";
 
 const submitButton = document.getElementById('submit-button');
 
@@ -76,6 +76,28 @@ document.getElementById('style-form').addEventListener('submit', async (e) => {
 // Export styles button handler
 document.getElementById('export-button').addEventListener('click', async () => {
   await exportStyles();
+})
+
+document.getElementById('import-button').addEventListener('click', () => {
+  const input = document.createElement('input');
+  input.type = 'file';
+  input.accept = 'application/json';
+  input.addEventListener('change', async (event) => {
+    const file = event.target.files[0];
+    console.log("Selected file:", file);
+    if (file) {
+      const { success, error } = await importStyles(file);
+      if (success) {
+        alert("Styles imported successfully!");
+        // Refresh the list of stored styles
+        listStoredStyles();
+        init();
+      } else {
+        alert("Failed to import styles: " + error);
+      }
+    }
+  });
+  input.click();
 })
 
 // On page load, list all stored styles in the ul element
