@@ -3,6 +3,6 @@ import {css} from "@codemirror/lang-css"
 
 export const view = new EditorView({
   parent: document.getElementById('code'),
-  doc: `p {\n background-color: purple;\n}`,
+  doc: `/* Insert your CSS rules *\/`,
   extensions: [basicSetup, css()],
 })

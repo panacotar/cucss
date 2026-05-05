@@ -1,4 +1,3 @@
-// styleTransfer.js
 // Utilities for exporting and importing user styles as JSON
 import { Storage } from './storage.js';
 
@@ -11,6 +10,7 @@ export async function exportStyles() {
   const dataStr = JSON.stringify(rules, null, 2);
   const blob = new Blob([dataStr], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
+
   const a = document.createElement('a');
   a.href = url;
   a.download = 'cucss_rules.json';
@@ -20,3 +20,23 @@ export async function exportStyles() {
   URL.revokeObjectURL(url);
 }
 
+/**
+ * Imports user styles from a JSON file (File object).
+ * Overwrites all existing styles.
+ * @param {File} file - The JSON file to import
+ * @returns {Promise<{success: boolean, error?: string}>}
+ */
+export async function importStyles(file) {
+  try {
+    const text = await file.text();
+    const rules = JSON.parse(text);
+    // Basic validation
+    if (typeof rules !== 'object' || (!rules.global && !rules.hosts && !rules.urls)) {
+      return { success: false, error: 'Invalid file structure.' };
+    }
+    await Storage.saveRules(rules);
+    return { success: true };
+  } catch (e) {
+    return { success: false, error: e.message };
+  }
+}
