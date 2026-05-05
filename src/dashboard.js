@@ -1,8 +1,11 @@
 import { Storage } from "./utils/storage.js";
 import { view } from "./utils/codemirror.js";
 import { exportStyles, importStyles } from "./utils/styleTransfer.js";
+import { EditorView } from "codemirror";
+import { StateEffect } from "@codemirror/state";
 
 const submitButton = document.getElementById('submit-button');
+let suppressDocChange = false;
 
 // Read the ?url-prefix= parameter from the URL
 function getUrlPrefix() {
@@ -23,33 +26,35 @@ function parseUrlPrefix(urlPrefix) {
 }
 
 async function initCodeTextarea(host) {
-  let code = await Storage.getHostStyle(host);
+  const code = (await Storage.getHostStyle(host)) ?? "";
   // Set CodeMirror editor content
-  if (window.view) {
-    window.view.dispatch({
-      changes: { from: 0, to: window.view.state.doc.length, insert: code }
-    });
-  } else if (typeof view !== 'undefined') {
-    view.dispatch({
-      changes: { from: 0, to: view.state.doc.length, insert: code }
-    });
-  }
+  const editorView = window.view ?? view;
+  suppressDocChange = true;
+  editorView.dispatch({
+    changes: { from: 0, to: editorView.state.doc.length, insert: code }
+  });
+  suppressDocChange = false;
 }
 
-function init() {
+async function init() {
   const urlPrefix = getUrlPrefix();
   const host = parseUrlPrefix(urlPrefix) || "<insert_host>";
 
-  initCodeTextarea(host);
+  await initCodeTextarea(host);
   document.getElementById('host').value = host;
+  submitButton.setAttribute('disabled', true);
 }
 
-init();
-
-// Enable submit button when code is changed
-document.getElementById('code').addEventListener('input', () => {
-  submitButton.removeAttribute('disabled');
+view.dispatch({
+  effects: StateEffect.appendConfig.of(
+    EditorView.updateListener.of((update) => {
+      if (!update.docChanged || suppressDocChange) return;
+      submitButton.removeAttribute('disabled');
+    })
+  ),
 });
+
+init();
 
 // Handle form submission
 document.getElementById('style-form').addEventListener('submit', async (e) => {
@@ -91,7 +96,7 @@ document.getElementById('import-button').addEventListener('click', () => {
         alert("Styles imported successfully!");
         // Refresh the list of stored styles
         listStoredStyles();
-        init();
+        await init();
       } else {
         alert("Failed to import styles: " + error);
       }
