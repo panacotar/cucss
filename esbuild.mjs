@@ -44,7 +44,7 @@ copyStatic();
 
 async function watchStatic() {
   watch('src', { recursive: true }, (eventType, filename) => {
-    if (filename && (filename.endsWith('.html') || filename === 'manifest.json')) {
+    if (filename && (filename.endsWith('.html') || filename === 'manifest.json' || filename.endsWith('.css'))) {
       // console.log(`${filename} changed, copying...`);
       copyStatic();
     }
