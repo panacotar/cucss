@@ -2,10 +2,13 @@
   "description": "CustomCSS - injects custom CSS into pages.",
   "manifest_version": 3,
   "name": "cucss",
-  "version": "1.0",
+  "version": "1.1",
   "homepage_url": "https://github.com/panacotar/cucss",
   "icons": {
-    "48": "icons/brush_48.png"
+    "32": "icons/cucss32_light.png",
+    "48": "icons/cucss48.png",
+    "64": "icons/cucss64.png",
+    "128": "icons/cucss128.png"
   },
 
   "browser_specific_settings": {
@@ -32,11 +35,11 @@
 
   "action": {
     "default_popup": "popup.html",
-    "default_icon": "icons/brush_32.png",
+    "default_icon": "icons/cucss32.png",
     "theme_icons": [
       {
-        "light": "icons/brush_32_light.png",
-        "dark": "icons/brush_32.png",
+        "light": "icons/cucss32_light.png",
+        "dark": "icons/cucss32.png",
         "size": 32
       }
     ]

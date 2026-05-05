@@ -1,3 +1,5 @@
+import { Storage } from "../utils/storage.js";
+
 let styleTag = document.createElement('style');
 styleTag.setAttribute('id', 'cucss');
 document.body.appendChild(styleTag);
@@ -24,16 +26,10 @@ function updateRules(rules) {
   }
 }
 
-async function getRules() {
-  // Todo: change to module and use the Storage helper class
-  const result = await browser.storage.local.get("styleRules");
-  return result["styleRules"] || {};
-}
-
 let rules;
 
 async function init() {
-  rules = await getRules();
+  rules = await Storage.getRules();
   const { applyStyles } = await browser.storage.local.get("applyStyles");
 
   styleTag.disabled = !applyStyles;

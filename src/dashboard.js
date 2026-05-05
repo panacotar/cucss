@@ -1,5 +1,6 @@
-import { Storage } from "./storage.js";
-import { view } from "./codemirror.js";
+import { Storage } from "./utils/storage.js";
+import { view } from "./utils/codemirror.js";
+import { exportStyles, importStyles } from "./utils/styleTransfer.js";
 
 const submitButton = document.getElementById('submit-button');
 
@@ -22,10 +23,17 @@ function parseUrlPrefix(urlPrefix) {
 }
 
 async function initCodeTextarea(host) {
-  const textarea = document.getElementById('code');
   let code = await Storage.getHostStyle(host);
-  
-  textarea.value = code;
+  // Set CodeMirror editor content
+  if (window.view) {
+    window.view.dispatch({
+      changes: { from: 0, to: window.view.state.doc.length, insert: code }
+    });
+  } else if (typeof view !== 'undefined') {
+    view.dispatch({
+      changes: { from: 0, to: view.state.doc.length, insert: code }
+    });
+  }
 }
 
 function init() {
@@ -55,7 +63,9 @@ document.getElementById('style-form').addEventListener('submit', async (e) => {
   // Get code from CodeMirror editor instance
   const code = view.state.doc.toString();
   // Remove newlines and extra spaces for basic validation
-  const normalizedCode = code.replace(/\s+/g, ' ').trim();
+  // const normalizedCode = code.replace(/\s+/g, ' ').trim();
+  // Remove extra spaces for basic validation
+  const normalizedCode = code.trim();
 
   // Todo: Validate CSS code (basic check)...";
   // Store the CSS code in local storage
@@ -63,10 +73,37 @@ document.getElementById('style-form').addEventListener('submit', async (e) => {
   submitButton.setAttribute('disabled', true);
 });
 
+// Export styles button handler
+document.getElementById('export-button').addEventListener('click', async () => {
+  await exportStyles();
+})
+
+document.getElementById('import-button').addEventListener('click', () => {
+  const input = document.createElement('input');
+  input.type = 'file';
+  input.accept = 'application/json';
+  input.addEventListener('change', async (event) => {
+    const file = event.target.files[0];
+    console.log("Selected file:", file);
+    if (file) {
+      const { success, error } = await importStyles(file);
+      if (success) {
+        alert("Styles imported successfully!");
+        // Refresh the list of stored styles
+        listStoredStyles();
+        init();
+      } else {
+        alert("Failed to import styles: " + error);
+      }
+    }
+  });
+  input.click();
+})
+
 // On page load, list all stored styles in the ul element
 async function listStoredStyles() {
   const styles = await Storage.getRules();
-  const list = document.getElementById('stored-styles');
+  const list = document.getElementById('stored-styles-list');
   list.innerHTML = "";
   
   if (styles.global) {

@@ -3,24 +3,29 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    body {
-      padding: 1em;
-    }
-    button {
-      padding: 0.5em 1em;
-    }
-    #current-host {
-      text-decoration: underline;
-    }
-  </style>
+  <meta name="color-scheme" content="dark light" />
+  <link rel="stylesheet" href="styles.css" />
 </head>
-<body>
-  <input type="checkbox" id="styles-checkbox" name="styles-checkbox" value="false">
-  <label for="styles-checkbox">Apply styles for <span id="current-host"></span></label><br>
+<body class="popup">
+  <div class="popup-card">
+    <div class="popup-header">
+      <h1>CUCSS</h1>
+      <div class="hint">Quick toggle</div>
+    </div>
 
-  <br>
-  <button id="dashboard-btn">Dashboard</button>
+    <div id="invalid-host" class="hint">Not a valid host.</div>
+
+    <form id="popup-form">
+      <label class="checkbox-row">
+        <input type="checkbox" id="styles-checkbox" name="styles-checkbox" value="false" />
+        <span>Apply styles for <span id="current-host"></span></span>
+      </label>
+    </form>
+
+    <div class="popup-actions">
+      <button id="dashboard-btn" type="button">Open dashboard</button>
+    </div>
+  </div>
 
   <script src="./popup.js"></script>
 </body>
