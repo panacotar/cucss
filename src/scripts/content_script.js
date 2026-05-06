@@ -12,7 +12,6 @@ function update(value) {
   styleTag.textContent = value
 }
 
-console.log("content script");
 function updateRules(rules) {
   const host = window.location.host;
 
@@ -44,7 +43,6 @@ let applyStyles = false;
 
 async function init() {
   rules = await Storage.getRules();
-  console.log("init ran", rules)
   const result = await browser.storage.local.get("applyStyles");
   applyStyles = result.applyStyles || false;
 
@@ -63,7 +61,6 @@ browser.storage.onChanged.addListener((changes, area) => {
   // Rules updated
   if (Storage.RULES_KEY in changes) {
     rules = changes[Storage.RULES_KEY].newValue || {};
-    console.log("rules changed", rules);
     if (applyStyles) updateRules(rules);
   }
 
