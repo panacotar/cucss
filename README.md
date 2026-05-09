@@ -1,7 +1,6 @@
 # CuCSS
 
-"CustomCSS - injects custom CSS into pages."
-
+A lightweight browser extension fro applying your own CSS to any site. Perfect for quick UI tweaks, accessibility fixes, and personal theming without touching the original page.
 
 ## Development
 

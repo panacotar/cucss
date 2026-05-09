@@ -13,12 +13,33 @@ function prefersDark() {
 
 const doc = `/* Insert your CSS rules */`;
 
+function triggerSave() {
+  const form = document.getElementById('style-form');
+  if (!form) return false;
+
+  if (typeof form.requestSubmit === 'function') {
+    form.requestSubmit();
+    return true;
+  }
+
+  // Fallback for older browsers: dispatch a submit event (dashboard.js listens on it).
+  form.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
+  return true;
+}
+
 export const view = new EditorView({
   parent: document.getElementById('code'),
   doc,
   extensions: [
     basicSetup,
-    keymap.of([indentWithTab]),
+    keymap.of([
+      indentWithTab,
+      {
+        key: "Mod-s",
+        preventDefault: true,
+        run: () => triggerSave(),
+      },
+    ]),
     css()
   ],
 });

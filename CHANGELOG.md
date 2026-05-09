@@ -1,4 +1,10 @@
 
+v1.3
+- Permissions
+- Icons change
+- CTRL+s save code editor
+- Code field UI fix
+
 v1.2
 - Fix codemirror onchange listener
 - Handle Tab key while code editing (add helper text on how to escape)
