@@ -1,4 +1,7 @@
 
+v1.4
+- Icons change
+
 v1.3
 - Permissions
 - Icons change
