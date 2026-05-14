@@ -5,6 +5,8 @@ It stores your styles locally in browser storage (based on the [Web Storage API]
 
 It displays a popup with a quick on/off toggle for the current site. A dedicated dashboard page provides a full CSS editor (powered by CodeMirror). The styles are stored internally, but it allows export/import them.
 
+This is deployed as a Firefox addon [here](https://addons.mozilla.org/en-US/firefox/addon/cucss/). I will bring it later to other browsers.
+
 ## Development
 
 ### 1. Install dependencies
@@ -55,3 +57,9 @@ body { background: red; font-style: italic; }
 .central-textlogo__image { background: blue; }
 #js-link-box-en strong { font-size: 30px; } 
 -->
+
+
+## Misc
+
+I wrote a brief article about building this extension:   
+https://organicdarius.com/blog/building-my-first-browser-extension/
