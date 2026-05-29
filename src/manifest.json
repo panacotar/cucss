@@ -2,7 +2,7 @@
   "description": "CustomCSS - injects custom CSS into pages.",
   "manifest_version": 3,
   "name": "cucss",
-  "version": "1.4",
+  "version": "1.5",
   "homepage_url": "https://github.com/panacotar/cucss",
   "icons": {
     "16": "icons/cucss16.png",
