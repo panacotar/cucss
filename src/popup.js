@@ -1,3 +1,5 @@
+import { HostFlagsStorage } from "./utils/storage.js";
+
 function onError(error) {
   console.error(`Error: ${error}`);
 }
@@ -14,16 +16,11 @@ function getCurrentHost(url) {
   }
 }
 
-async function getApplyStyles() {
-  const result = await browser.storage.local.get("applyStyles");
-  return result["applyStyles"] || false;
-}
-
 let currentTab;
 
 async function init() {
   // Query tabs to get current tab
-  const [currentTab] = await browser.tabs.query({currentWindow: true, active:true});
+  [currentTab] = await browser.tabs.query({ currentWindow: true, active: true });
   const currentHost = getCurrentHost(currentTab.url)
   // if (!currentHost) {
 
@@ -31,7 +28,7 @@ async function init() {
     document.getElementById('invalid-host').style.display = 'none';
     document.getElementById('popup-form').style.display = 'block';
     // Set checkbox state based on stored value
-    document.getElementById('styles-checkbox').checked = await getApplyStyles();
+    document.getElementById('styles-checkbox').checked = await HostFlagsStorage.getHostEnabled(currentHost);
   
     // Set current host info
     document.getElementById('current-host').textContent = currentHost;
@@ -57,6 +54,8 @@ init().catch(onError);
 
 document.getElementById('styles-checkbox').addEventListener('change', (e) => {
   const isChecked = e.target.checked;
-  // Store the checkbox state in local storage
-  browser.storage.local.set({ "applyStyles": isChecked }).catch(onError);
+  if (!currentTab?.url) return;
+  const currentHost = getCurrentHost(currentTab.url);
+  if (!currentHost) return;
+  HostFlagsStorage.setHostEnabled(currentHost, isChecked).catch(onError);
 });

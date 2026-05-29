@@ -1,6 +1,6 @@
 import { jest } from '@jest/globals';
 import { exportStyles, importStyles } from '../utils/styleTransfer.js';
-import { Storage } from '../utils/storage.js';
+import { RulesStorage } from '../utils/storage.js';
 
 // Mock browser.storage.local (same pattern as storage.test.js)
 global.browser = {
@@ -37,7 +37,7 @@ describe('styleTransfer', () => {
         hosts: { 'example.com': 'body { background: blue; }' },
         urls: { 'example.com/page': 'h1 { font-size: 2em; }' }
       };
-      await Storage.saveRules(rules);
+      await RulesStorage.saveRules(rules);
 
       const anchor = {
         tagName: 'A',
@@ -83,7 +83,7 @@ describe('styleTransfer', () => {
 
   describe('importStyles', () => {
     test('imports valid rules JSON and overwrites existing styles', async () => {
-      await Storage.setGlobalStyle('body { color: green; }');
+      await RulesStorage.setGlobalStyle('body { color: green; }');
 
       const importedRules = {
         global: 'body { color: red; }',
@@ -100,7 +100,7 @@ describe('styleTransfer', () => {
       const result = await importStyles(file);
       expect(result).toEqual({ success: true });
 
-      const stored = await Storage.getRules();
+      const stored = await RulesStorage.getRules();
       expect(stored).toEqual(importedRules);
     });
 
@@ -115,7 +115,7 @@ describe('styleTransfer', () => {
       expect(result.success).toBe(false);
       expect(result.error).toBe('Invalid file structure.');
 
-      const stored = await Storage.getRules();
+      const stored = await RulesStorage.getRules();
       expect(stored).toEqual({});
     });
 

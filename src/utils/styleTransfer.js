@@ -1,12 +1,12 @@
 // Utilities for exporting and importing user styles as JSON
-import { Storage } from './storage.js';
+import { RulesStorage } from './storage.js';
 
 /**
  * Exports all user styles as a downloadable JSON file.
  * The structure matches the Storage rules format.
  */
 export async function exportStyles() {
-  const rules = await Storage.getRules();
+  const rules = await RulesStorage.getRules();
   const dataStr = JSON.stringify(rules, null, 2);
   const blob = new Blob([dataStr], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
@@ -34,7 +34,7 @@ export async function importStyles(file) {
     if (typeof rules !== 'object' || (!rules.global && !rules.hosts && !rules.urls)) {
       return { success: false, error: 'Invalid file structure.' };
     }
-    await Storage.saveRules(rules);
+    await RulesStorage.saveRules(rules);
     return { success: true };
   } catch (e) {
     return { success: false, error: e.message };

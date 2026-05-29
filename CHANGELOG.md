@@ -1,4 +1,9 @@
 
+v1.5
+- Host-specific apply styles toggle (`cucssHostFlags`)
+- Storage refactor (split rules and host flags storage)
+- Fix styles being applied after rule updates when toggle is off
+
 v1.4
 - Icons change
 

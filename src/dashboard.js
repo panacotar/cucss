@@ -1,4 +1,4 @@
-import { Storage } from "./utils/storage.js";
+import { RulesStorage } from "./utils/storage.js";
 import { view } from "./utils/codemirror.js";
 import { exportStyles, importStyles } from "./utils/styleTransfer.js";
 import { EditorView } from "codemirror";
@@ -26,7 +26,7 @@ function parseUrlPrefix(urlPrefix) {
 }
 
 async function initCodeTextarea(host) {
-  const code = (await Storage.getHostStyle(host)) ?? "";
+  const code = (await RulesStorage.getHostStyle(host)) ?? "";
   // Set CodeMirror editor content
   const editorView = window.view ?? view;
   suppressDocChange = true;
@@ -74,7 +74,7 @@ document.getElementById('style-form').addEventListener('submit', async (e) => {
 
   // Todo: Validate CSS code (basic check)...";
   // Store the CSS code in local storage
-  await Storage.setHostStyle(host, normalizedCode);
+  await RulesStorage.setHostStyle(host, normalizedCode);
   submitButton.setAttribute('disabled', true);
 });
 
@@ -107,7 +107,7 @@ document.getElementById('import-button').addEventListener('click', () => {
 
 // On page load, list all stored styles in the ul element
 async function listStoredStyles() {
-  const styles = await Storage.getRules();
+  const styles = await RulesStorage.getRules();
   const list = document.getElementById('stored-styles-list');
   list.innerHTML = "";
   

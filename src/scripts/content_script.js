@@ -1,4 +1,4 @@
-import { Storage } from "../utils/storage.js";
+import { HostFlagsStorage, RulesStorage } from "../utils/storage.js";
 
 let styleTag = document.createElement('style');
 styleTag.setAttribute('id', 'cucss');
@@ -10,6 +10,9 @@ function onError(error) {
 
 function update(value) {
   styleTag.textContent = value
+  // Some browsers may effectively "refresh" a <style> element when its text
+  // changes; re-assert disabled state so styles never apply when toggled off.
+  styleTag.disabled = !applyStyles;
 }
 
 function updateRules(rules) {
@@ -42,14 +45,13 @@ let rules;
 let applyStyles = false;
 
 async function init() {
-  rules = await Storage.getRules();
-  const result = await browser.storage.local.get("applyStyles");
-  applyStyles = result.applyStyles || false;
+  rules = await RulesStorage.getRules();
+  applyStyles = await HostFlagsStorage.getHostEnabled(window.location.host);
 
+  // Keep the computed CSS up to date even when disabled, so re-enabling
+  // immediately uses the latest rules without needing another rules update.
+  updateRules(rules);
   styleTag.disabled = !applyStyles;
-  if (applyStyles) {
-    updateRules(rules);
-  }
 }
 
 init().catch(onError);
@@ -59,14 +61,19 @@ browser.storage.onChanged.addListener((changes, area) => {
   if (area !== 'local') return;
 
   // Rules updated
-  if (Storage.RULES_KEY in changes) {
-    rules = changes[Storage.RULES_KEY].newValue || {};
-    if (applyStyles) updateRules(rules);
+  if (RulesStorage.RULES_KEY in changes) {
+    rules = changes[RulesStorage.RULES_KEY].newValue || {};
+    // Always recompute CSS so the latest rules are ready when re-enabled.
+    updateRules(rules);
+    // Re-assert disabled state in case the style element was refreshed.
+    styleTag.disabled = !applyStyles;
   }
 
   // Apply toggle updated
-  if ("applyStyles" in changes) {
-    applyStyles = changes.applyStyles.newValue || false;
+  if (HostFlagsStorage.HOST_FLAGS_KEY in changes) {
+    const host = window.location.host;
+    const hostFlags = changes[HostFlagsStorage.HOST_FLAGS_KEY].newValue || {};
+    applyStyles = hostFlags?.[host] || false;
     styleTag.disabled = !applyStyles;
     if (applyStyles) updateRules(rules || {});
   }
